@@ -3,21 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using TMPro;
 
-[RequireComponent(typeof(InputManager), typeof(GameState))]
+[RequireComponent(typeof(InputManager))]
 public class GameManager : MonoBehaviour
 {
     [Range(1, 2)]
-    //[SerializeField]
-    public static int playerCount;
-    public static User currentUser;
+    [SerializeField]
+    private int playerCount;
 
     [SerializeField] private GameObject levelPrefab;
-    [SerializeField] private GameObject winPanel;
-    [SerializeField] private TextMeshProUGUI winPanelText;
     private InputManager inputManager;
-    private GameState gameState;
     private List<BreakableBlock> levelOneBlocks;
     private List<BreakableBlock> levelTwoBlocks;
     private Vector3 levelPositionPlayerOne = new Vector3(0, 0, 0);
@@ -29,10 +24,9 @@ public class GameManager : MonoBehaviour
     private Ball levelOneBall;
     private Ball levelTwoBall;
 
-    private void Start()
+    private void Awake()
     {
         inputManager = gameObject.GetComponent<InputManager>();
-        gameState = gameObject.GetComponent<GameState>();
         
         levelOne = Instantiate(levelPrefab, levelPositionPlayerOne, Quaternion.identity);
         inputManager.OnPlayerOnePressLeft += levelOne.GetComponentInChildren<Paddle>().OnPressKeyLeft;
@@ -48,43 +42,32 @@ public class GameManager : MonoBehaviour
             inputManager.OnPlayerTwoPressRight += levelTwo.GetComponentInChildren<Paddle>().OnPressKeyRight;
             inputManager.OnPressStart += levelTwo.GetComponentInChildren<Ball>().OnStartKeyPressed;
 
-        }
-
-        setCameras();
-        GetBlocks();
-        GetBalls();
-    }
-    
-    private void setCameras()
-    {
-        cameraOne = levelOne.GetComponentInChildren<Camera>();
-        cameraOne.rect = new Rect(0.25f, 0, 0.5f, 1);
-        
-        if (playerCount == 2)
-        {
+            cameraOne = levelOne.GetComponentInChildren<Camera>();
             cameraTwo = levelTwo.GetComponentInChildren<Camera>();
+
             cameraOne.rect = new Rect(0, 0, 0.5f, 1);
             cameraTwo.rect = new Rect(0.5f, 0, 0.5f, 1);
+
             cameraTwo.GetComponent<AudioListener>().enabled = false;
         }
+
+        GetBlocks();
+        GetBalls();
     }
 
     public void CountBlocks()
     {
         //Debug.Log("Recounting Blocks");
         GetBlocks();
-
-        if (playerCount == 1)
+        
+        if (levelOneBlocks.Count == 0)
         {
-            if (levelOneBlocks.Count == 0)
-                EndScreen(currentUser, true);
+            Debug.Log("Player One Won!");
         }
-        else if (playerCount == 2)
+        
+        if (playerCount == 2 && levelTwoBlocks.Count == 0)
         {
-            if (levelOneBlocks.Count == 0)
-                EndScreen(1);
-            else if (levelTwoBlocks.Count == 0)
-                EndScreen(2);
+            Debug.Log("Player Two Won!");
         }
     }
 
@@ -112,49 +95,14 @@ public class GameManager : MonoBehaviour
 
     public void OnPlayerHitBottomCollider(object o, EventArgs e)
     {
-        if (playerCount == 1)
+        if ((Ball)o == levelOneBall)
         {
-            EndScreen(currentUser, false);
+            Debug.Log("player one lost");
         }
-        else if (playerCount == 2)
+        else if ((Ball)o == levelTwoBall)
         {
-            if ((Ball)o == levelOneBall)
-                EndScreen(2);
-            else if ((Ball)o == levelTwoBall)
-                EndScreen(1);
+            Debug.Log("player two lost");
         }
-       
     }
-
-    private void EndScreen(int winner)
-    {
-        gameState.Pause();
-        if (winner == 1)
-            winPanelText.SetText("Player one won!");
-        else if (winner == 2)
-            winPanelText.SetText("Player two won!");
-        winPanel.SetActive(true);
-    }
-
-    private void EndScreen(User player, bool won)
-    {
-        gameState.Pause();
-        if (player == null)
-        {
-            if (won)
-                winPanelText.SetText("You won!");
-            else
-                winPanelText.SetText("You lost!");
-        }
-        else
-        {
-            if (won)
-                winPanelText.SetText(player.userName + " won!");
-            else
-                winPanelText.SetText(player.userName + " lost!");
-        }
-        winPanel.SetActive(true);
-    }
-
 
 }

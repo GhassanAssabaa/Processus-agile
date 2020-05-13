@@ -10,9 +10,8 @@ public class LoginRegisterUIManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI userName;
     [SerializeField] private TextMeshProUGUI password;
-    [SerializeField] private Button registerButton;
-    [SerializeField] private Button signinButton;
-    [SerializeField] private Button playAsGuestButton;
+    [SerializeField] private Button RegisterButton;
+    [SerializeField] private Button SigninButton;
 
     private UsersManager usersManager;
 
@@ -20,9 +19,8 @@ public class LoginRegisterUIManager : MonoBehaviour
     {
         usersManager = gameObject.GetComponent<UsersManager>();
 
-        registerButton.onClick.AddListener(Register);
-        signinButton.onClick.AddListener(Signin);
-        playAsGuestButton.onClick.AddListener(PlayAsGuest);
+        RegisterButton.onClick.AddListener(Register);
+        SigninButton.onClick.AddListener(Signin);
     }
 
     public void Register()
@@ -40,18 +38,10 @@ public class LoginRegisterUIManager : MonoBehaviour
             if (user.userName == userName.text && user.password == password.text)
             {
                 Debug.Log("Found user");
-                GameManager.currentUser = user;
-                SceneLoader.LoadLevel(1);
-                return;
+                SceneManager.LoadScene("SinglePlayerScene");
             }
         }
 
         Debug.Log("user not found");
-    }
-
-    public void PlayAsGuest()
-    {
-        GameManager.currentUser = null;
-        SceneLoader.LoadLevel(1);
     }
 }

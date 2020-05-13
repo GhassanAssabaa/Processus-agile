@@ -22,7 +22,6 @@ public class MainMenu : MonoBehaviour
 
     private void LoadTwoPlayer()
     {
-        //SceneManager.LoadScene("TwoPlayerScene");
-        SceneLoader.LoadLevel(2);
+        SceneManager.LoadScene("TwoPlayerScene");
     }
 }
