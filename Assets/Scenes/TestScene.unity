@@ -227,6 +227,7 @@ GameObject:
   - component: {fileID: 927277918}
   - component: {fileID: 927277917}
   - component: {fileID: 927277919}
+  - component: {fileID: 927277920}
   m_Layer: 0
   m_Name: PlayersManager
   m_TagString: Untagged
@@ -246,10 +247,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6cc61eccf56de64eaabc0b5cb1bfa61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCount: 2
   levelPrefab: {fileID: 1047115869701804936, guid: 95cde822e530a8e42a9fd969c43ab669,
     type: 3}
   winPanel: {fileID: 425891315}
+  winPanelText: {fileID: 4269553465109078138}
 --- !u!4 &927277918
 Transform:
   m_ObjectHideFlags: 0
@@ -281,6 +282,18 @@ MonoBehaviour:
   playerTwoLeftKey: 97
   playerTwoRightKey: 100
   startKey: 32
+--- !u!114 &927277920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927277916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db190f9b38af26942956e3b6dc083972, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1720250270
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,3 +578,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38c9d015181ad9b41bd3f0cf2cea410d, type: 3}
+--- !u!114 &4269553465109078138 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4269553464755567248, guid: 38c9d015181ad9b41bd3f0cf2cea410d,
+    type: 3}
+  m_PrefabInstance: {fileID: 4269553465109078137}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

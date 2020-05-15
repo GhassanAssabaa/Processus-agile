@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TwoPlayerScene.unity
     guid: f0dfcb373a16d2d4083f41d9a253e01c
+  - enabled: 1
+    path: Assets/Scenes/TestScene.unity
+    guid: d831161fa4467ee43813391cacc15e69
   m_configObjects: {}

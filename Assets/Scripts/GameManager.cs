@@ -3,17 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using TMPro;
 
-[RequireComponent(typeof(InputManager))]
+[RequireComponent(typeof(InputManager), typeof(GameState))]
 public class GameManager : MonoBehaviour
 {
     [Range(1, 2)]
-    [SerializeField]
-    private int playerCount;
+    //[SerializeField]
+    public static int playerCount;
+    public static User currentUser;
 
     [SerializeField] private GameObject levelPrefab;
     [SerializeField] private GameObject winPanel;
+    [SerializeField] private TextMeshProUGUI winPanelText;
     private InputManager inputManager;
+    private GameState gameState;
     private List<BreakableBlock> levelOneBlocks;
     private List<BreakableBlock> levelTwoBlocks;
     private Vector3 levelPositionPlayerOne = new Vector3(0, 0, 0);
@@ -28,6 +32,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         inputManager = gameObject.GetComponent<InputManager>();
+        gameState = gameObject.GetComponent<GameState>();
         
         levelOne = Instantiate(levelPrefab, levelPositionPlayerOne, Quaternion.identity);
         inputManager.OnPlayerOnePressLeft += levelOne.GetComponentInChildren<Paddle>().OnPressKeyLeft;
@@ -60,17 +65,18 @@ public class GameManager : MonoBehaviour
     {
         //Debug.Log("Recounting Blocks");
         GetBlocks();
-        
-        if (levelOneBlocks.Count == 0)
+
+        if (playerCount == 1)
         {
-            Debug.Log("Player One Won!");
-            EndScreen(1);
+            if (levelOneBlocks.Count == 0)
+                EndScreen(currentUser, true);
         }
-        
-        if (playerCount == 2 && levelTwoBlocks.Count == 0)
+        else if (playerCount == 2)
         {
-            Debug.Log("Player Two Won!");
-            EndScreen(2);
+            if (levelOneBlocks.Count == 0)
+                EndScreen(1);
+            else if (levelTwoBlocks.Count == 0)
+                EndScreen(2);
         }
     }
 
@@ -98,22 +104,48 @@ public class GameManager : MonoBehaviour
 
     public void OnPlayerHitBottomCollider(object o, EventArgs e)
     {
-        if ((Ball)o == levelOneBall)
+        if (playerCount == 1)
         {
-            Debug.Log("player one lost");
-            EndScreen(2);
+            EndScreen(currentUser, false);
         }
-        else if ((Ball)o == levelTwoBall)
+        else if (playerCount == 2)
         {
-            Debug.Log("player two lost");
-            EndScreen(1);
+            if ((Ball)o == levelOneBall)
+                EndScreen(2);
+            else if ((Ball)o == levelTwoBall)
+                EndScreen(1);
         }
+       
     }
 
-    private void EndScreen(int i)
+    private void EndScreen(int winner)
     {
-        Time.timeScale = 0;
+        gameState.Pause();
+        if (winner == 1)
+            winPanelText.SetText("Player one won!");
+        else if (winner == 2)
+            winPanelText.SetText("Player two won!");
+    }
+
+    private void EndScreen(User player, bool won)
+    {
+        gameState.Pause();
+        if (player == null)
+        {
+            if (won)
+                winPanelText.SetText("You won!");
+            else
+                winPanelText.SetText("You lost!");
+        }
+        else
+        {
+            if (won)
+                winPanelText.SetText(player.userName + " won!");
+            else
+                winPanelText.SetText(player.userName + " lost!");
+        }
         winPanel.SetActive(true);
     }
+
 
 }
