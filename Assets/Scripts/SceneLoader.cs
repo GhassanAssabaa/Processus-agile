@@ -2,36 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class SceneLoader
+public class SceneLoader
 {
-    private static string mainMenu = "MainScene";
-    private static string loginRegister = "LoginRegister";
-    private static string level = "TestScene";
+    private string mainMenu = "MainScene";
+    private string loginRegister = "LoginRegister";
 
-    public static void ReloadScene()
+    public void ReloadScene()
     {
-        GameObject.FindObjectOfType<GameState>().Unpause();
         Application.LoadLevel(Application.loadedLevel);
     }
     
-    public static void LoadMainMenu()
+    public void LoadMainMenu()
     {
-        GameObject.FindObjectOfType<GameState>().Unpause();
         Application.LoadLevel(mainMenu);
     }
 
-    public static void LoadSignin()
+    public void LoadSignin()
     {
-        GameObject.FindObjectOfType<GameState>().Unpause();
         Application.LoadLevel(loginRegister);
-    }
-
-    public static void LoadLevel(int playerCount)
-    {
-        if (playerCount > 0 && playerCount < 3)
-        {
-            GameManager.playerCount = playerCount;
-            Application.LoadLevel(level);
-        }
     }
 }

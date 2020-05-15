@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     private int playerCount;
 
     [SerializeField] private GameObject levelPrefab;
+    [SerializeField] private GameObject winPanel;
     private InputManager inputManager;
     private List<BreakableBlock> levelOneBlocks;
     private List<BreakableBlock> levelTwoBlocks;
@@ -24,7 +25,7 @@ public class GameManager : MonoBehaviour
     private Ball levelOneBall;
     private Ball levelTwoBall;
 
-    private void Awake()
+    private void Start()
     {
         inputManager = gameObject.GetComponent<InputManager>();
         
@@ -63,11 +64,13 @@ public class GameManager : MonoBehaviour
         if (levelOneBlocks.Count == 0)
         {
             Debug.Log("Player One Won!");
+            EndScreen(1);
         }
         
         if (playerCount == 2 && levelTwoBlocks.Count == 0)
         {
             Debug.Log("Player Two Won!");
+            EndScreen(2);
         }
     }
 
@@ -98,11 +101,19 @@ public class GameManager : MonoBehaviour
         if ((Ball)o == levelOneBall)
         {
             Debug.Log("player one lost");
+            EndScreen(2);
         }
         else if ((Ball)o == levelTwoBall)
         {
             Debug.Log("player two lost");
+            EndScreen(1);
         }
+    }
+
+    private void EndScreen(int i)
+    {
+        Time.timeScale = 0;
+        winPanel.SetActive(true);
     }
 
 }

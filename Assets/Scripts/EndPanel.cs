@@ -8,23 +8,24 @@ public class EndPanel : MonoBehaviour
 {
     [SerializeField] private Button restartButton;
     [SerializeField] private Button menuButton;
+    private SceneLoader loader;
 
     void Awake()
     {
         gameObject.SetActive(false);
+        loader = new SceneLoader();
 
         restartButton.onClick.AddListener(Restart);
         menuButton.onClick.AddListener(MainMenu);
     }
 
-
     private void Restart()
     {
-        SceneLoader.ReloadScene();
+        loader.ReloadScene();
     }
 
     private void MainMenu()
     {
-        SceneLoader.LoadMainMenu();
+        loader.LoadMainMenu();
     }
 }
