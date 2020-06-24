@@ -3,24 +3,28 @@ using System.Collections.Generic;
 using System.Dynamic;
 using UnityEngine;
 
-public enum State { Paused, Playing}
-
-public class GameState : MonoBehaviour
+namespace Assests.Scripts
 {
-    public State state {
-        get { return _state; }
-    }
-    private State _state = State.Playing;
-    
-    public void Pause()
-    {
-        _state = State.Paused;
-        Time.timeScale = 0;
-    }
+    public enum State { Paused, Playing }
 
-    public void Unpause()
+    public class GameState : MonoBehaviour
     {
-        _state = State.Playing;
-        Time.timeScale = 1;
+        public State state
+        {
+            get { return _state; }
+        }
+        private State _state = State.Playing;
+
+        public void Pause()
+        {
+            _state = State.Paused;
+            Time.timeScale = 0;
+        }
+
+        public void Unpause()
+        {
+            _state = State.Playing;
+            Time.timeScale = 1;
+        }
     }
 }

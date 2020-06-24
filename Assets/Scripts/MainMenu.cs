@@ -4,25 +4,29 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MainMenu : MonoBehaviour
+namespace Assests.Scripts
 {
-    [SerializeField] private Button singlePlayerButton;
-    [SerializeField] private Button twoPlayerButton;
 
-    private void Start()
+    public class MainMenu : MonoBehaviour
     {
-        singlePlayerButton.onClick.AddListener(LoadSinglePlayer);
-        twoPlayerButton.onClick.AddListener(LoadTwoPlayer);
-    }
+        [SerializeField] private Button singlePlayerButton;
+        [SerializeField] private Button twoPlayerButton;
 
-    private void LoadSinglePlayer()
-    {
-        SceneManager.LoadScene("LoginRegister");
-    }
+        private void Start()
+        {
+            singlePlayerButton.onClick.AddListener(LoadSinglePlayer);
+            twoPlayerButton.onClick.AddListener(LoadTwoPlayer);
+        }
 
-    private void LoadTwoPlayer()
-    {
-        //SceneManager.LoadScene("TwoPlayerScene");
-        SceneLoader.LoadLevel(2);
+        private void LoadSinglePlayer()
+        {
+            SceneManager.LoadScene("LoginRegister");
+        }
+
+        private void LoadTwoPlayer()
+        {
+            //SceneManager.LoadScene("TwoPlayerScene");
+            SceneLoader.LoadLevel(2);
+        }
     }
 }

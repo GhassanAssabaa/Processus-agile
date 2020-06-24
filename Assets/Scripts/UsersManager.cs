@@ -4,56 +4,76 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class UsersManager : MonoBehaviour
+namespace Assests.Scripts
 {
-    private string userDataFileName = "/users.csv";
-    private string userDataFilePath;
 
-    private string ReadUserData()
+    public class UsersManager : MonoBehaviour
     {
-        userDataFilePath = Application.streamingAssetsPath + userDataFileName;
-        return "";
-    }
+        private string userDataFileName = "/users.csv";
+        private string userDataFilePath;
 
-    public void WriteUserData(User user)
-    {
-        userDataFilePath = Application.streamingAssetsPath + userDataFileName;
-
-        using (FileStream file = File.Exists(userDataFilePath) ? 
-            File.Open(userDataFilePath, FileMode.Append) : File.Open(userDataFilePath, FileMode.Create))
+        private void FindPath()
         {
-            using (StreamWriter sw = new StreamWriter(file))
-            {
-                sw.WriteLine(user.toCsvFormat());
-            }
-        }
-    }
-
-    public List<User> GetUsers()
-    {
-        List<User> users = new List<User>();
-
-        userDataFilePath = Application.streamingAssetsPath + userDataFileName;
-
-        if (!File.Exists(userDataFilePath))
-        {
-            FileStream file = File.Open(userDataFilePath, FileMode.Create);
-            file.Close();
+            userDataFilePath = Application.streamingAssetsPath + userDataFileName;
         }
 
-        using (StreamReader file = new StreamReader(userDataFilePath))
+        public void WriteUserData(User user)
         {
-            var line = file.ReadLine();
-            var values = line.Split(';');
+            FindPath();
 
-            if (values.Length > 0)
+            using (FileStream file = File.Exists(userDataFilePath) ?
+                File.Open(userDataFilePath, FileMode.Append) : File.Open(userDataFilePath, FileMode.Create))
             {
-                if (values[0].Length > 0 && values[1].Length > 0)
+                using (StreamWriter sw = new StreamWriter(file))
                 {
-                    users.Add(new User(values[0], values[1]));
+                    sw.WriteLine(user.toCsvFormat());
                 }
             }
         }
-        return users;
+
+        public void ResetUsersData(List<User> users)
+        {
+            FindPath();
+
+            if (File.Exists(userDataFilePath))
+            {
+                File.Delete(userDataFilePath);
+            }
+
+            foreach (User user in users) {
+                WriteUserData(user);
+            }
+        }
+
+        public List<User> GetUsers()
+        {
+            List<User> users = new List<User>();
+
+            FindPath();
+
+            if (!File.Exists(userDataFilePath))
+            {
+                FileStream file = File.Open(userDataFilePath, FileMode.Create);
+                file.Close();
+            }
+
+            using (StreamReader file = new StreamReader(userDataFilePath))
+            {
+                string line;
+                while ((line = file.ReadLine()) != null)
+                {
+                    var values = line.Split(';');
+
+                    if (values.Length > 0)
+                    {
+                        if (values[0].Length > 0 && values[1].Length > 0)
+                        {
+                            users.Add(new User(values[0], values[1]));
+                        }
+                    }
+                }
+            }
+            return users;
+        }
     }
 }

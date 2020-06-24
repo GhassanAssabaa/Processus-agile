@@ -2,23 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D))]
-public class BreakableBlock : MonoBehaviour
+namespace Assests.Scripts
 {
-    [Range(1, 3)]
-    [SerializeField] private int hitsNeededBeforeBreak = 1;
-    private int totalHits = 0;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    [RequireComponent(typeof(BoxCollider2D))]
+    public class BreakableBlock : MonoBehaviour
     {
-        if (collision.gameObject.tag == "Ball")
+        [Range(1, 3)]
+        [SerializeField] private int hitsNeededBeforeBreak = 1;
+        private int totalHits = 0;
+
+        private void OnCollisionEnter2D(Collision2D collision)
         {
-            totalHits++;
-            if (totalHits == hitsNeededBeforeBreak)
+            if (collision.gameObject.tag == "Ball")
             {
-                //Debug.Log("destroyed");
-                FindObjectOfType<GameManager>().CountBlocks();
-                Destroy(this.gameObject);
+                totalHits++;
+                if (totalHits == hitsNeededBeforeBreak)
+                {
+                    //Debug.Log("destroyed");
+                    FindObjectOfType<GameManager>().CountBlocks();
+                    Destroy(this.gameObject);
+                }
             }
         }
     }

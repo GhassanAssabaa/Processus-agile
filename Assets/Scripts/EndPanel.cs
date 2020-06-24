@@ -4,27 +4,31 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EndPanel : MonoBehaviour
+namespace Assests.Scripts
 {
-    [SerializeField] private Button restartButton;
-    [SerializeField] private Button menuButton;
 
-    void Awake()
+    public class EndPanel : MonoBehaviour
     {
-        gameObject.SetActive(false);
+        [SerializeField] private Button restartButton;
+        [SerializeField] private Button menuButton;
 
-        restartButton.onClick.AddListener(Restart);
-        menuButton.onClick.AddListener(MainMenu);
-    }
+        void Awake()
+        {
+            gameObject.SetActive(false);
+
+            restartButton.onClick.AddListener(Restart);
+            menuButton.onClick.AddListener(MainMenu);
+        }
 
 
-    private void Restart()
-    {
-        SceneLoader.ReloadScene();
-    }
+        private void Restart()
+        {
+            SceneLoader.ReloadScene();
+        }
 
-    private void MainMenu()
-    {
-        SceneLoader.LoadMainMenu();
+        private void MainMenu()
+        {
+            SceneLoader.LoadMainMenu();
+        }
     }
 }
