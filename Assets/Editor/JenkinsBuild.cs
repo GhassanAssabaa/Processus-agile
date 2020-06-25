@@ -21,7 +21,7 @@ public class JenkinsBuild
     {
 
         string appName = "AppName";
-        string targetDir = "Desktop";
+        string targetDir = "C:\Users\HP\Desktop";
 
         // find: -executeMethod
         //   +1: JenkinsBuild.BuildMacOS
