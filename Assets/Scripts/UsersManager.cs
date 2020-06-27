@@ -9,24 +9,29 @@ namespace Assests.Scripts
 
     public class UsersManager : MonoBehaviour
     {
-        private string userDataFileName = "/users.csv";
+        // Classe qui gère la gestion des users
+		private string userDataFileName = "/users.csv";
         private string userDataFilePath;
-
+		
+		//Méthode qui cherche le path du fichier CSV
         private void FindPath()
         {
             userDataFilePath = Application.streamingAssetsPath + userDataFileName;
         }
-
+		
+		//Méthode qui stocke le user dans le fichier CSV
         public void WriteUserData(User user)
         {
             FindPath();
-
+			
             using (FileStream file = File.Exists(userDataFilePath) ?
-                File.Open(userDataFilePath, FileMode.Append) : File.Open(userDataFilePath, FileMode.Create))
+                //To open the file
+				File.Open(userDataFilePath, FileMode.Append) : File.Open(userDataFilePath, FileMode.Create))
             {
                 using (StreamWriter sw = new StreamWriter(file))
                 {
-                    sw.WriteLine(user.toCsvFormat());
+                    //Add user in the file
+					sw.WriteLine(user.toCsvFormat());
                 }
             }
         }
@@ -34,17 +39,18 @@ namespace Assests.Scripts
         public void ResetUsersData(List<User> users)
         {
             FindPath();
-
+			// Test if the file exist
             if (File.Exists(userDataFilePath))
             {
                 File.Delete(userDataFilePath);
             }
-
+			//Write the users in the csv file after the test
             foreach (User user in users) {
                 WriteUserData(user);
             }
         }
 
+		//Get all the users in the csv file in a list to store them
         public List<User> GetUsers()
         {
             List<User> users = new List<User>();

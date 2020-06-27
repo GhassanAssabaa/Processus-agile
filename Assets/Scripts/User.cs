@@ -6,6 +6,7 @@ using UnityEngine;
 namespace Assests.Scripts
 {
     [Serializable]
+	//Creation de la classe user 
     public class User
     {
         public string userName;
@@ -21,7 +22,7 @@ namespace Assests.Scripts
         {
             return JsonUtility.ToJson(this, true);
         }
-
+		// ToString qui stocke le user dans un string avec un séparateur csv 
         public string toCsvFormat()
         {
             return userName + ";" + password;

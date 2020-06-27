@@ -17,26 +17,32 @@ namespace Assests.Scripts
         [SerializeField] private Button playAsGuestButton;
 
         private UsersManager usersManager;
-
+		//Start the game en cliquant sur n'importe quel bouton après la vérification des conditions biensur^^
         private void Start()
         {
             usersManager = gameObject.GetComponent<UsersManager>();
 
+			//Pour register
             registerButton.onClick.AddListener(Register);
+			//se connecter et commencer le jeu
             signinButton.onClick.AddListener(Signin);
+			//Jouer en tant qu'invité
             playAsGuestButton.onClick.AddListener(PlayAsGuest);
         }
-
+		//Pour s'inscrire
         public void Register()
         {
-            User user = new User(userName.text, password.text);
+            //On donne en paramètre username et le mdp
+			User user = new User(userName.text, password.text);
+			//Ils sont ensuite sauvegarder dans le fichier csv
             usersManager.WriteUserData(user);
         }
 
         public void Signin()
         {
-            List<User> users = usersManager.GetUsers();
-
+            //On stocke le ficheir dans une liste
+			List<User> users = usersManager.GetUsers();
+			//On check si il existe dans la liste pour commencer
             foreach (User user in users)
             {
                 if (user.userName == userName.text && user.password == password.text)
@@ -52,6 +58,7 @@ namespace Assests.Scripts
         }
 
         public void PlayAsGuest()
+		//Jouer directement et le user a une valeur nulle
         {
             GameManager.currentUser = null;
             SceneLoader.LoadLevel(1);

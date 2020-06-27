@@ -23,6 +23,7 @@ namespace Assests.Scripts
             SceneManager.LoadScene("LoginRegister");
         }
 
+		// mettre en paramètre 2 hada howa lplayercount qui donne la condition pour que le gameManager idir le jeu pour deux joueurs
         private void LoadTwoPlayer()
         {
             //SceneManager.LoadScene("TwoPlayerScene");

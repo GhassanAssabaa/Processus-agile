@@ -15,7 +15,8 @@ namespace Assests.Scripts
         //[SerializeField]
         public static int playerCount;
         public static User currentUser;
-
+		//Cette classe manage tout le jeu !!!!!!!
+		//Chaque objet on a crée une copie dans le cas où il y'aura 2 joueur
         [SerializeField] private GameObject levelPrefab;
         [SerializeField] private GameObject winPanel;
         [SerializeField] private TextMeshProUGUI winPanelText;
@@ -25,6 +26,7 @@ namespace Assests.Scripts
         private GameState gameState;
         private List<BreakableBlock> levelOneBlocks;
         private List<BreakableBlock> levelTwoBlocks;
+		// Setting the positions
         private Vector3 levelPositionPlayerOne = new Vector3(0, 0, 0);
         private Vector3 levelPositionPlayerTwo = new Vector3(10, 0, 0);
         private GameObject levelOne;
@@ -41,7 +43,7 @@ namespace Assests.Scripts
             gameState = gameObject.GetComponent<GameState>();
 
             levelOne = Instantiate(levelPrefab, levelPositionPlayerOne, Quaternion.identity);
-
+			//On a ajouter juste cette condition sur toute les fonctions existante dans cette classe
             if (playerCount == 2)
             {
                 levelTwo = Instantiate(levelPrefab, levelPositionPlayerTwo, Quaternion.identity);
@@ -52,7 +54,7 @@ namespace Assests.Scripts
             GetBalls();
             GetPaddles();
             SetInput();
-
+			//If the player don't play the IA is playing
             if (playerOneAuto)
                 SetAutoPaddle(levelOnePaddle, levelOneBall);
             if (playerCount == 2 && playerTwoAuto)
@@ -66,7 +68,8 @@ namespace Assests.Scripts
             inputManager.OnPlayerOnePressLeft += levelOnePaddle.OnPressKeyLeft;
             inputManager.OnPlayerOnePressRight += levelOnePaddle.OnPressKeyRight;
             inputManager.OnPressStart += levelOne.GetComponentInChildren<Ball>().OnStartKeyPressed;
-
+			
+			//On ajoute juste cette conditon encore une fois
             if (playerCount == 2)
             {
                 inputManager.OnPlayerTwoPressLeft += levelTwo.GetComponentInChildren<Paddle>().OnPressKeyLeft;
@@ -79,15 +82,21 @@ namespace Assests.Scripts
         {
             cameraOne = levelOne.GetComponentInChildren<Camera>();
             cameraOne.rect = new Rect(0.25f, 0, 0.5f, 1);
-
+			//Fonction qui set la caméra ou partie men écran
             if (playerCount == 1)
             {
-                cameraOne.rect = new Rect(0, 0, 1, 1);
+                // les variables 0 position à gauche en haut
+				//0 position à gauche en haut
+				//0 position à droite en bas
+				//1 pourcentage qu'on prend de l'écran
+				//1 pourcentage qu'on prend de l'écran
+				cameraOne.rect = new Rect(0, 0, 1, 1);
             }
-
+			//On ajoute juste cette conditon encore une fois
             if (playerCount == 2)
             {
                 cameraTwo = levelTwo.GetComponentInChildren<Camera>();
+				// les variables des caméras
                 cameraOne.rect = new Rect(0, 0, 0.5f, 1);
                 cameraTwo.rect = new Rect(0.5f, 0, 0.5f, 1);
                 cameraTwo.GetComponent<AudioListener>().enabled = false;
@@ -104,6 +113,7 @@ namespace Assests.Scripts
                 if (levelOneBlocks.Count == 0)
                     EndScreen(currentUser, true);
             }
+			//On ajoute juste cette condition encore une fois
             else if (playerCount == 2)
             {
                 if (levelOneBlocks.Count == 0)
